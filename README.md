@@ -108,6 +108,7 @@ movie-reservation-system/
 │   │   │           ├── repositories/     # Repositorios Spring Data JPA
 │   │   │           ├── services/         # Servicios de Negocio
 │   │   │           └── security/         # Configuración de Seguridad
+│   │   │           └── utils/            # Clases de Utilidad
 │   │   └── resources/
 │   │       ├── application.properties    # Configuración de la aplicación
 │   │       └── static/                   # Archivos estáticos (si se usan)
