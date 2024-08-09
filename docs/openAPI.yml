@@ -1,0 +1,551 @@
+openapi: 3.0.3
+info:
+  title: Movie Reservation System API
+  description: API para el sistema de reservación de películas.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+    description: Servidor de desarrollo local
+
+paths:
+  /api/auth/register:
+    post:
+      summary: Registro de Usuario
+      description: Permite a un nuevo usuario registrarse en el sistema.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                email:
+                  type: string
+      responses:
+        '201':
+          description: Usuario registrado exitosamente
+        '400':
+          description: Solicitud incorrecta
+
+  /api/auth/login:
+    post:
+      summary: Inicio de Sesión
+      description: Permite a un usuario iniciar sesión y obtener un token de autenticación.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Inicio de sesión exitoso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        '401':
+          description: Credenciales inválidas
+
+  /api/auth/logout:
+    post:
+      summary: Cerrar Sesión
+      description: Cierra la sesión del usuario actual.
+      responses:
+        '200':
+          description: Sesión cerrada exitosamente
+        '400':
+          description: Error al cerrar sesión
+
+  /api/auth/me:
+    get:
+      summary: Obtener Información del Usuario Actual
+      description: Obtiene la información del perfil del usuario autenticado.
+      responses:
+        '200':
+          description: Información del usuario
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                  email:
+                    type: string
+                  role:
+                    type: string
+
+  /api/movies:
+    get:
+      summary: Obtener Todas las Películas
+      description: Devuelve una lista de todas las películas disponibles.
+      responses:
+        '200':
+          description: Lista de películas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    title:
+                      type: string
+                    description:
+                      type: string
+                    genre:
+                      type: string
+                    poster:
+                      type: string
+
+    post:
+      summary: Añadir una Nueva Película
+      description: Permite a un administrador añadir una nueva película.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                genre:
+                  type: string
+                poster:
+                  type: string
+      responses:
+        '201':
+          description: Película creada
+        '400':
+          description: Solicitud incorrecta
+
+  /api/movies/{id}:
+    get:
+      summary: Obtener Detalles de una Película
+      description: Devuelve los detalles de una película específica.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Detalles de la película
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  title:
+                    type: string
+                  description:
+                    type: string
+                  genre:
+                    type: string
+                  poster:
+                    type: string
+                  schedules:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        date:
+                          type: string
+                        time:
+                          type: string
+        '404':
+          description: Película no encontrada
+
+    put:
+      summary: Actualizar una Película
+      description: Permite a un administrador actualizar los detalles de una película.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                genre:
+                  type: string
+                poster:
+                  type: string
+      responses:
+        '200':
+          description: Película actualizada
+        '400':
+          description: Solicitud incorrecta
+        '404':
+          description: Película no encontrada
+
+    delete:
+      summary: Eliminar una Película
+      description: Permite a un administrador eliminar una película.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Película eliminada exitosamente
+        '404':
+          description: Película no encontrada
+
+  /api/movies/{id}/schedules:
+    get:
+      summary: Obtener Horarios de Proyección de una Película
+      description: Obtiene los horarios de proyección para una película específica.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Horarios de proyección
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    date:
+                      type: string
+                    time:
+                      type: string
+
+    post:
+      summary: Añadir un Horario de Proyección
+      description: Permite a un administrador añadir un nuevo horario para una película.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                date:
+                  type: string
+                time:
+                  type: string
+      responses:
+        '201':
+          description: Horario de proyección creado
+        '400':
+          description: Solicitud incorrecta
+
+  /api/schedules/{id}:
+    put:
+      summary: Actualizar un Horario de Proyección
+      description: Permite a un administrador actualizar un horario de proyección existente.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                date:
+                  type: string
+                time:
+                  type: string
+      responses:
+        '200':
+          description: Horario de proyección actualizado
+        '400':
+          description: Solicitud incorrecta
+        '404':
+          description: Horario de proyección no encontrado
+
+    delete:
+      summary: Eliminar un Horario de Proyección
+      description: Permite a un administrador eliminar un horario de proyección.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Horario de proyección eliminado exitosamente
+        '404':
+          description: Horario de proyección no encontrado
+
+  /api/reservations/available:
+    get:
+      summary: Consultar Películas y Horarios Disponibles
+      description: Obtiene las películas y horarios disponibles para una fecha específica.
+      parameters:
+        - name: date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Películas y horarios disponibles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    movieId:
+                      type: integer
+                    title:
+                      type: string
+                    schedules:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          date:
+                            type: string
+                          time:
+                            type: string
+
+  /api/reservations:
+    post:
+      summary: Reservar Asientos
+      description: Permite a un usuario reservar asientos para una proyección específica.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                scheduleId:
+                  type: integer
+                seats:
+                  type: array
+                  items:
+                    type: string
+                userId:
+                  type: integer
+      responses:
+        '201':
+          description: Reservación creada
+        '400':
+          description: Solicitud incorrecta
+
+    get:
+      summary: Obtener Reservaciones del Usuario
+      description: Obtiene todas las reservaciones futuras del usuario autenticado.
+      responses:
+        '200':
+          description: Lista de reservaciones
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    schedule:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        date:
+                          type: string
+                        time:
+                          type: string
+                    seats:
+                      type: array
+                      items:
+                        type: string
+                    movie:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        title:
+                          type: string
+
+  /api/reservations/{id}:
+    delete:
+      summary: Cancelar una Reservación
+      description: Permite a un usuario cancelar una reservación existente.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Reservación cancelada exitosamente
+        '404':
+          description: Reservación no encontrada
+
+  /api/admin/reservations:
+    get:
+      summary: Obtener Todas las Reservaciones (Administrador)
+      description: Permite a un administrador ver todas las reservaciones y detalles relacionados.
+      responses:
+        '200':
+          description: Lista de todas las reservaciones
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    user:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        username:
+                          type: string
+                    schedule:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        date:
+                          type: string
+                        time:
+                          type: string
+                    seats:
+                      type: array
+                      items:
+                        type: string
+                    movie:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        title:
+                          type: string
+
+  /api/admin/reports/income:
+    get:
+      summary: Obtener Reporte de Ingresos
+      description: Obtiene un reporte de ingresos generados por las reservaciones.
+      parameters:
+        - name: startDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Reporte de ingresos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalIncome:
+                    type: number
+                    format: decimal
+                  details:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: string
+                        amount:
+                          type: number
+                          format: decimal
+
+  /api/admin/reports/capacity:
+    get:
+      summary: Obtener Reporte de Capacidad
+      description: Obtiene un reporte de la capacidad disponible y ocupada para cada película.
+      responses:
+        '200':
+          description: Reporte de capacidad
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    movieId:
+                      type: integer
+                    title:
+                      type: string
+                    scheduleId:
+                      type: integer
+                    date:
+                      type: string
+                    time:
+                      type: string
+                    totalSeats:
+                      type: integer
+                    reservedSeats:
+                      type: integer
