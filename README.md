@@ -77,6 +77,8 @@ El **Movie Reservation System** es un sistema backend para la reservación de pe
      {URL_DATABASE}
      {USER_DATABASE}
      {PASSWORD_DATABASE}
+     {SECRET_KEY}
+     {EXPIRATION_TOKEN_TIME}
      ```
 
 3. **Construir el Proyecto:**

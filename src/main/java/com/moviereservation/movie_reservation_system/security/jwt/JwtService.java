@@ -18,8 +18,9 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    private static final String SECRET_KEY = "8890ca4bc6440e29b91a23bdc55d72e39a79630ab0f11e71ead2cd5eaa2b262b";
-    private static final int EXPIRATION_TIME = 1000 * 60 * 24; // 24 hours
+    private static final String SECRET_KEY = System.getenv("SECRET_KEY");
+    private static final int DEFAULT_EXPIRATION_TIME = 3600;
+    private static final int EXPIRATION_TIME = getExpirationTime();
 
     public String generateToken(User user) {
         return generateTokenWithExtraClaims(new HashMap<>(), user);
@@ -69,5 +70,17 @@ public class JwtService {
 
     private Date getExpiration(String token) {
         return getClaim(token, Claims::getExpiration);
+    }
+
+    private static int getExpirationTime() {
+        String expirationTimeStr = System.getenv("EXPIRATION_TOKEN_TIME");
+        if (expirationTimeStr == null) {
+            return DEFAULT_EXPIRATION_TIME;
+        }
+        try {
+            return Integer.parseInt(expirationTimeStr);
+        } catch (NumberFormatException e) {
+            return DEFAULT_EXPIRATION_TIME;
+        }
     }
 }
