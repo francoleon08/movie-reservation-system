@@ -1,4 +1,4 @@
-package com.moviereservation.movie_reservation_system.config.jwt;
+package com.moviereservation.movie_reservation_system.security.jwt;
 
 
 import jakarta.servlet.FilterChain;
@@ -30,28 +30,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = getTokenFromRequest(request);
         String username;
 
-        if (token == null) {
+        if (isTokenAbsent(token)) {
             filterChain.doFilter(request, response);
             return;
         }
 
         username = jwtService.getUsernameFromToken(token);
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
-            if (jwtService.isTokenValid(token, userDetails)) {
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken;
-                usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null,
-                        userDetails.getAuthorities()
-                );
-                usernamePasswordAuthenticationToken.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request)
-                );
-                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-            }
+        if (isAuthenticationRequired(username)) {
+            authenticateUser(request, username, token);
         }
 
         filterChain.doFilter(request, response);
@@ -63,5 +50,32 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return header.substring(7);
         }
         return null;
+    }
+
+    private boolean isTokenAbsent(String token) {
+        return token == null;
+    }
+
+    private boolean isAuthenticationRequired(String username) {
+        return username != null && SecurityContextHolder.getContext().getAuthentication() == null;
+    }
+
+    private void authenticateUser(HttpServletRequest request, String username, String token) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+        if (jwtService.isTokenValid(token, userDetails)) {
+            setAuthentication(request, userDetails);
+        }
+    }
+
+    private void setAuthentication(HttpServletRequest request, UserDetails userDetails) {
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken;
+        usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                userDetails,
+                null,
+                userDetails.getAuthorities()
+        );
+        usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
     }
 }
