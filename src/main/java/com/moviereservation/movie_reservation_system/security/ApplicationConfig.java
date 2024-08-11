@@ -1,4 +1,4 @@
-package com.moviereservation.movie_reservation_system.config;
+package com.moviereservation.movie_reservation_system.security;
 
 import com.moviereservation.movie_reservation_system.repositories.UserRepository;
 import lombok.AllArgsConstructor;

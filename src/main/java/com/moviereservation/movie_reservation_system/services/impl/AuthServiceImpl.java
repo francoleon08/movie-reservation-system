@@ -1,12 +1,13 @@
-package com.moviereservation.movie_reservation_system.auth;
+package com.moviereservation.movie_reservation_system.services.impl;
 
-import com.moviereservation.movie_reservation_system.config.jwt.JwtService;
+import com.moviereservation.movie_reservation_system.security.jwt.JwtService;
 import com.moviereservation.movie_reservation_system.models.user.User;
 import com.moviereservation.movie_reservation_system.models.user.UserRole;
 import com.moviereservation.movie_reservation_system.models.user.dto.AuthResponse;
 import com.moviereservation.movie_reservation_system.models.user.dto.LoginDTO;
 import com.moviereservation.movie_reservation_system.models.user.dto.RegisterDTO;
 import com.moviereservation.movie_reservation_system.repositories.UserRepository;
+import com.moviereservation.movie_reservation_system.services.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,13 +18,14 @@ import java.time.LocalDateTime;
 
 @Service
 @AllArgsConstructor
-public class AuthService {
+public class AuthServiceImpl implements AuthService {
 
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private UserRepository userRepository;
     private JwtService jwtService;
 
+    @Override
     public AuthResponse registerUser(RegisterDTO registerDTO) {
         User user = User.builder()
                 .username(registerDTO.getUsername())
@@ -41,6 +43,7 @@ public class AuthService {
                 .build();
     }
 
+    @Override
     public AuthResponse loginUser(LoginDTO loginDTO) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
         User user = userRepository.findByUsername(loginDTO.getUsername())

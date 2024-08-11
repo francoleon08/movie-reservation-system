@@ -1,4 +1,4 @@
-package com.moviereservation.movie_reservation_system.config.jwt;
+package com.moviereservation.movie_reservation_system.security.jwt;
 
 import com.moviereservation.movie_reservation_system.models.user.User;
 import io.jsonwebtoken.Claims;

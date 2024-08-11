@@ -1,6 +1,6 @@
-package com.moviereservation.movie_reservation_system.config;
+package com.moviereservation.movie_reservation_system.security;
 
-import com.moviereservation.movie_reservation_system.config.jwt.JwtAuthenticationFilter;
+import com.moviereservation.movie_reservation_system.security.jwt.JwtAuthenticationFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

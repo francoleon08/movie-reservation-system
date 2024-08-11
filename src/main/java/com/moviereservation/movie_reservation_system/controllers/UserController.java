@@ -1,6 +1,6 @@
-package com.moviereservation.movie_reservation_system.controllers.user;
+package com.moviereservation.movie_reservation_system.controllers;
 
-import com.moviereservation.movie_reservation_system.auth.AuthService;
+import com.moviereservation.movie_reservation_system.services.AuthService;
 import com.moviereservation.movie_reservation_system.models.user.dto.LoginDTO;
 import com.moviereservation.movie_reservation_system.models.user.dto.RegisterDTO;
 import com.moviereservation.movie_reservation_system.services.UserService;
