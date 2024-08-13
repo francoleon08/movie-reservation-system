@@ -21,18 +21,26 @@ public class Movie {
 
     @Id
     private String id;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String name;
+    @Column(length = 500)
     private String synopsis;
+    @Column(length = 60)
     private String director;
+    @Column(length = 60)
     private String nationality;
+    @Column(length = 60)
     private String qualification;
-    private Integer duration;
+    @Column(length = 60)
     private String distributor;
+    @Column(length = 60)
     private String trailerUrl;
+    @Column(length = 60)
     private String posterUrl;
+    @Column(length = 60)
     private String website;
     private LocalDate releaseDate;
+    private int duration;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
