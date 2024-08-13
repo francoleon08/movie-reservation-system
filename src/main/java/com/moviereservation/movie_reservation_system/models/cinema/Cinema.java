@@ -17,9 +17,9 @@ public class Cinema {
 
     @Id
     private String id;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String name;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 60)
     private String address;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

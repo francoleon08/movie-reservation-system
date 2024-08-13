@@ -17,6 +17,7 @@ public class City {
 
     @Id
     private String postalCode;
+    @Column(nullable = false, length = 100)
     private String name;
 
 

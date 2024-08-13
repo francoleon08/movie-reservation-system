@@ -18,11 +18,11 @@ public class Auditoriums {
 
     @Id
     private String id;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String name;
     private int capacity;
     private int rows;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String type;
 
     @ManyToOne (fetch = FetchType.LAZY, optional = false)
