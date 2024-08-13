@@ -26,7 +26,7 @@ public class Screening {
     private LocalDate projectionDate;
     @Column(nullable = false)
     private LocalTime projectionTime;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 10)
     private String format;
     private int reservedSeats;
     private int totalSeats;
