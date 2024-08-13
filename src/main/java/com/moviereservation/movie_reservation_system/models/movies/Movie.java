@@ -1,6 +1,7 @@
 package com.moviereservation.movie_reservation_system.models.movies;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.moviereservation.movie_reservation_system.models.screening.Screening;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -58,4 +59,7 @@ public class Movie {
     )
     @Column(name = "actor")
     private List<String> actors;
+
+    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Screening> screenings;
 }
