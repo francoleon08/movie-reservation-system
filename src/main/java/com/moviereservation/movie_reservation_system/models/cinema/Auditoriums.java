@@ -21,7 +21,7 @@ public class Auditoriums {
     @Column(nullable = false, length = 100)
     private String name;
     private int capacity;
-    private int rows;
+    private int rowsNumber;
     @Column(nullable = false, length = 50)
     private String type;
 
