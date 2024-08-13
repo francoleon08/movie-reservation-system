@@ -20,8 +20,8 @@ public class Auditoriums {
     private String id;
     @Column(nullable = false)
     private String name;
-    @Column(nullable = false)
-    private Integer capacity;
+    private int capacity;
+    private int rows;
     @Column(nullable = false)
     private String type;
 

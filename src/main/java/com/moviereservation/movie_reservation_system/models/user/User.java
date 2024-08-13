@@ -1,5 +1,6 @@
 package com.moviereservation.movie_reservation_system.models.user;
 
+import com.moviereservation.movie_reservation_system.models.screening.Ticket;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,6 +44,9 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Ticket> tickets;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

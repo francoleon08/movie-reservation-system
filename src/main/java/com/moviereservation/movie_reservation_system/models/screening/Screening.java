@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -38,4 +39,7 @@ public class Screening {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "auditoriums_id", nullable = false)
     private Auditoriums auditoriums;
+
+    @OneToMany(mappedBy = "screening", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Ticket> tickets;
 }
