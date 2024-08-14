@@ -1,5 +1,6 @@
 package com.moviereservation.movie_reservation_system.models.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.moviereservation.movie_reservation_system.models.screening.Ticket;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -46,6 +47,7 @@ public class User implements UserDetails {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Ticket> tickets;
 
     @Override

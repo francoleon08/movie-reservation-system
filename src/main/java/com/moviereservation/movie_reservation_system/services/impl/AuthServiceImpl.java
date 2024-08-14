@@ -1,5 +1,6 @@
 package com.moviereservation.movie_reservation_system.services.impl;
 
+import com.moviereservation.movie_reservation_system.models.user.dto.UserDetailsDTO;
 import com.moviereservation.movie_reservation_system.security.jwt.JwtService;
 import com.moviereservation.movie_reservation_system.models.user.User;
 import com.moviereservation.movie_reservation_system.models.user.UserRole;
@@ -11,6 +12,8 @@ import com.moviereservation.movie_reservation_system.services.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -58,7 +61,20 @@ public class AuthServiceImpl implements AuthService {
         return null;
     }
 
-    public String getCurrentUser() {
-        return null;
+    @Override
+    public UserDetailsDTO getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new RuntimeException("No user is currently authenticated");
+        }
+        User user = (User) authentication.getPrincipal();
+        return UserDetailsDTO.builder()
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .age(user.getAge())
+                .role(user.getRole().toString())
+                .build();
     }
 }
