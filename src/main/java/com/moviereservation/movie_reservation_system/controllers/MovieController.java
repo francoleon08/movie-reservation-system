@@ -4,10 +4,7 @@ import com.moviereservation.movie_reservation_system.exceptions.ResourceNotFound
 import com.moviereservation.movie_reservation_system.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/movies")
@@ -26,9 +23,18 @@ public class MovieController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllMovies() {
+    public ResponseEntity<?> searchMoviesByOptionalParams(
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "director", required = false) String director,
+            @RequestParam(value = "nationality", required = false) String nationality,
+            @RequestParam(value = "qualification", required = false) String qualification,
+            @RequestParam(value = "distributor", required = false) String distributor,
+            @RequestParam(value = "genre", required = false) String genre,
+            @RequestParam(value = "language", required = false) String language,
+            @RequestParam(value = "actor", required = false) String actor)
+    {
         try {
-            return ResponseEntity.ok(movieService.getAllMovies());
+            return ResponseEntity.ok(movieService.findMoviesByOptionalParams(name, director, nationality, qualification, distributor, genre, language, actor));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

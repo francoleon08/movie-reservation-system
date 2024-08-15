@@ -12,7 +12,9 @@ import com.moviereservation.movie_reservation_system.services.GenreService;
 import com.moviereservation.movie_reservation_system.services.LanguageService;
 import com.moviereservation.movie_reservation_system.services.MovieService;
 import com.moviereservation.movie_reservation_system.utils.ConvertTO;
+import com.moviereservation.movie_reservation_system.utils.MovieSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,9 +37,22 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> getAllMovies() throws ResourceNotFoundException {
-        return movieRepository.findAllByState(MovieState.ACTIVE)
-                .orElseThrow(() -> new ResourceNotFoundException("No movies found"));
+    public List<Movie> findMoviesByOptionalParams(String name, String director, String nationality, String qualification, String distributor, String genre, String language, String actor) throws ResourceNotFoundException {
+        Specification<Movie> specification = Specification
+                .where(MovieSpecification.hasName(name))
+                .and(MovieSpecification.hasDirector(director))
+                .and(MovieSpecification.hasNationality(nationality))
+                .and(MovieSpecification.hasQualification(qualification))
+                .and(MovieSpecification.hasDistributor(distributor))
+                .and(MovieSpecification.hasGenre(genre))
+                .and(MovieSpecification.hasLanguage(language))
+                .and(MovieSpecification.hasActor(actor));
+        List<Movie> movies = movieRepository.findAll(specification);
+        movies.removeIf(movie -> movie.getState().equals(MovieState.INACTIVE));
+        if (movies.isEmpty()) {
+            throw new ResourceNotFoundException("No movies found");
+        }
+        return movies;
     }
 
     @Override
