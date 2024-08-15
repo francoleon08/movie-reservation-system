@@ -60,7 +60,7 @@ public class Movie {
     @JsonManagedReference
     private List<Language> languages;
 
-    @ElementCollection (fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
             name = "movie_cast",
             joinColumns = @JoinColumn(name = "movie_id")

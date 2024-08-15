@@ -25,7 +25,7 @@ public class Auditoriums {
     @Column(nullable = false, length = 50)
     private String type;
 
-    @ManyToOne (fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "cinema_id", nullable = false)
     private Cinema cinema;
 

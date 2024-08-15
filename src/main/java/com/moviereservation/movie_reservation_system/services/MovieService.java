@@ -9,5 +9,6 @@ import java.util.List;
 
 public interface MovieService {
     List<Movie> getAllMovies() throws ResourceNotFoundException;
+
     Movie addMovie(MovieDTO movie) throws ResourceAlreadyExistException;
 }

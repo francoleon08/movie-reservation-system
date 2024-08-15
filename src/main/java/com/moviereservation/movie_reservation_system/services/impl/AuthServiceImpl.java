@@ -1,13 +1,13 @@
 package com.moviereservation.movie_reservation_system.services.impl;
 
-import com.moviereservation.movie_reservation_system.models.user.dto.UserDetailsDTO;
-import com.moviereservation.movie_reservation_system.security.jwt.JwtService;
 import com.moviereservation.movie_reservation_system.models.user.User;
 import com.moviereservation.movie_reservation_system.models.user.UserRole;
 import com.moviereservation.movie_reservation_system.models.user.dto.AuthResponse;
 import com.moviereservation.movie_reservation_system.models.user.dto.LoginDTO;
 import com.moviereservation.movie_reservation_system.models.user.dto.RegisterDTO;
+import com.moviereservation.movie_reservation_system.models.user.dto.UserDetailsDTO;
 import com.moviereservation.movie_reservation_system.repositories.UserRepository;
+import com.moviereservation.movie_reservation_system.security.jwt.JwtService;
 import com.moviereservation.movie_reservation_system.services.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;

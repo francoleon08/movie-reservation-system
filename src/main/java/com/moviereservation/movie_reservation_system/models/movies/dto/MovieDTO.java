@@ -1,7 +1,5 @@
 package com.moviereservation.movie_reservation_system.models.movies.dto;
 
-import com.moviereservation.movie_reservation_system.models.movies.Genre;
-import com.moviereservation.movie_reservation_system.models.movies.Language;
 import lombok.Builder;
 import lombok.Data;
 

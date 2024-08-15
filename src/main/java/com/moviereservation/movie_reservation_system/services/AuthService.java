@@ -8,6 +8,8 @@ import com.moviereservation.movie_reservation_system.models.user.dto.UserDetails
 public interface AuthService {
 
     AuthResponse registerUser(RegisterDTO registerDTO);
+
     AuthResponse loginUser(LoginDTO loginDTO);
+
     UserDetailsDTO getCurrentUser();
 }

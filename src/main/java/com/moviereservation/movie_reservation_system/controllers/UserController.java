@@ -1,17 +1,11 @@
 package com.moviereservation.movie_reservation_system.controllers;
 
-import com.moviereservation.movie_reservation_system.security.jwt.JwtAuthenticationFilter;
-import com.moviereservation.movie_reservation_system.security.jwt.JwtService;
-import com.moviereservation.movie_reservation_system.services.AuthService;
 import com.moviereservation.movie_reservation_system.models.user.dto.LoginDTO;
 import com.moviereservation.movie_reservation_system.models.user.dto.RegisterDTO;
+import com.moviereservation.movie_reservation_system.services.AuthService;
 import com.moviereservation.movie_reservation_system.services.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

@@ -6,5 +6,6 @@ import com.moviereservation.movie_reservation_system.models.movies.Language;
 public interface LanguageService {
 
     Language findByName(String name) throws ResourceNotFoundException;
+
     boolean existsByName(String name);
 }
