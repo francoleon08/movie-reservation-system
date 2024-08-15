@@ -5,6 +5,7 @@ import com.moviereservation.movie_reservation_system.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,6 +15,15 @@ public class MovieController {
 
     @Autowired
     private MovieService movieService;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getMovieById(@PathVariable String id) {
+        try {
+            return ResponseEntity.ok(movieService.getMovieById(id));
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
     @GetMapping
     public ResponseEntity<?> getAllMovies() {

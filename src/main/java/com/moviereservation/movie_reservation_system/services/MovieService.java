@@ -8,6 +8,7 @@ import com.moviereservation.movie_reservation_system.models.movies.dto.MovieDTO;
 import java.util.List;
 
 public interface MovieService {
+    Movie getMovieById(String id) throws ResourceNotFoundException;
     List<Movie> getAllMovies() throws ResourceNotFoundException;
     Movie addMovie(MovieDTO movie) throws ResourceAlreadyExistException;
     Movie updateMovie(String id, MovieDTO movie) throws ResourceNotFoundException;

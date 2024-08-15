@@ -29,6 +29,12 @@ public class MovieServiceImpl implements MovieService {
     private LanguageService languageService;
 
     @Override
+    public Movie getMovieById(String id) throws ResourceNotFoundException {
+        return movieRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Movie not found"));
+    }
+
+    @Override
     public List<Movie> getAllMovies() throws ResourceNotFoundException {
         return movieRepository.findAllByState(MovieState.ACTIVE)
                 .orElseThrow(() -> new ResourceNotFoundException("No movies found"));
