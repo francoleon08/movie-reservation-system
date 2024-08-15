@@ -47,6 +47,25 @@ public class MovieServiceImpl implements MovieService {
         return movieRepository.save(movie);
     }
 
+    @Override
+    public Movie updateMovie(String id, MovieDTO movie) throws ResourceNotFoundException {
+        if (!movieRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Movie not found");
+        }
+        Movie movieToUpdate = ConvertTO.convertToMovieDTO(movie);
+        handleLanguages(movie, movieToUpdate);
+        handleGenres(movie, movieToUpdate);
+        return movieRepository.save(movieToUpdate);
+    }
+
+    @Override
+    public void deleteMovie(String id) throws ResourceNotFoundException {
+        if (!movieRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Movie not found");
+        }
+        movieRepository.deleteById(id);
+    }
+
     private void handleGenres(MovieDTO movieDTO, Movie movie) {
         List<Genre> genres = movieDTO.getGenres().stream()
                 .map(this::handleGenresException)

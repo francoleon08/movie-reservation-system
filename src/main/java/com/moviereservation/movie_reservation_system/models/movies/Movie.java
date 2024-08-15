@@ -42,7 +42,7 @@ public class Movie {
     private LocalDate releaseDate;
     private int duration;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "movie_genre",
             joinColumns = @JoinColumn(name = "movie_id"),
@@ -51,7 +51,7 @@ public class Movie {
     @JsonManagedReference
     private List<Genre> genres;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "movie_language",
             joinColumns = @JoinColumn(name = "movie_id"),
