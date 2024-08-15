@@ -12,4 +12,5 @@ public interface MovieService {
     Movie addMovie(MovieDTO movie) throws ResourceAlreadyExistException;
     Movie updateMovie(String id, MovieDTO movie) throws ResourceNotFoundException;
     void deleteMovie(String id) throws ResourceNotFoundException;
+    void deactivateMovie(String id) throws ResourceNotFoundException;
 }

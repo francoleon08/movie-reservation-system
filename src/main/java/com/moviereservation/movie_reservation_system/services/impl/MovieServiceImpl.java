@@ -5,6 +5,7 @@ import com.moviereservation.movie_reservation_system.exceptions.ResourceNotFound
 import com.moviereservation.movie_reservation_system.models.movies.Genre;
 import com.moviereservation.movie_reservation_system.models.movies.Language;
 import com.moviereservation.movie_reservation_system.models.movies.Movie;
+import com.moviereservation.movie_reservation_system.models.movies.MovieState;
 import com.moviereservation.movie_reservation_system.models.movies.dto.MovieDTO;
 import com.moviereservation.movie_reservation_system.repositories.MovieRepository;
 import com.moviereservation.movie_reservation_system.services.GenreService;
@@ -29,11 +30,8 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<Movie> getAllMovies() throws ResourceNotFoundException {
-        List<Movie> movies = movieRepository.findAll();
-        if (movies.isEmpty()) {
-            throw new ResourceNotFoundException("No movies found");
-        }
-        return movies;
+        return movieRepository.findAllByState(MovieState.ACTIVE)
+                .orElseThrow(() -> new ResourceNotFoundException("No movies found"));
     }
 
     @Override
@@ -44,6 +42,7 @@ public class MovieServiceImpl implements MovieService {
         Movie movie = ConvertTO.convertToMovieDTO(movieDTO);
         handleLanguages(movieDTO, movie);
         handleGenres(movieDTO, movie);
+        movie.setState(MovieState.ACTIVE);
         return movieRepository.save(movie);
     }
 
@@ -64,6 +63,14 @@ public class MovieServiceImpl implements MovieService {
             throw new ResourceNotFoundException("Movie not found");
         }
         movieRepository.deleteById(id);
+    }
+
+    @Override
+    public void deactivateMovie(String id) throws ResourceNotFoundException {
+        Movie movie = movieRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Movie not found"));
+        movie.setState(MovieState.INACTIVE);
+        movieRepository.save(movie);
     }
 
     private void handleGenres(MovieDTO movieDTO, Movie movie) {

@@ -39,6 +39,17 @@ public class MovieAdminController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/deactivate/{id}")
+    public ResponseEntity<?> deactivateMovie(@PathVariable String id) {
+        try {
+            movieService.deactivateMovie(id);
+            return ResponseEntity.ok("Movie deactivated successfully");
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteMovie(@PathVariable String id) {
        try {

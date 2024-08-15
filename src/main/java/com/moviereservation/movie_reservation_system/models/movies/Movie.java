@@ -42,6 +42,10 @@ public class Movie {
     private LocalDate releaseDate;
     private int duration;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MovieState state;
+
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "movie_genre",
