@@ -302,6 +302,24 @@ paths:
         '404':
           description: Película no encontrada
 
+  /api/admin/movies/deactivate/{id}:
+    put:
+      summary: Desactivar una Película
+      description: Permite a un administrador desactivar una película.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Película desactivada
+        '400':
+          description: Solicitud incorrecta
+        '404':
+          description: Película no encontrada
+
   /api/movies/{id}/schedules:
     get:
       summary: Obtener Horarios de Proyección de una Película
