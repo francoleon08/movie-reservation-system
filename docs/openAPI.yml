@@ -133,6 +133,7 @@ paths:
                     poster:
                       type: string
 
+  /api/admin/movies:
     post:
       summary: Añadir una Nueva Película
       description: Permite a un administrador añadir una nueva película.
@@ -143,14 +144,41 @@ paths:
             schema:
               type: object
               properties:
-                title:
+                id:
                   type: string
-                description:
+                name:
                   type: string
-                genre:
+                synopsis:
                   type: string
-                poster:
+                nationality:
                   type: string
+                qualification:
+                  type: string
+                distributor:
+                  type: string
+                trailerUrl:
+                  type: string
+                posterUrl:
+                  type: string
+                website:
+                  type: string
+                releaseDate:
+                  type: string
+                  format: date
+                duration:
+                  type: integer
+                genres:
+                  type: array
+                  items:
+                    format: string
+                languages:
+                  type: array
+                  items:
+                    format: string
+                actors:
+                  type: array
+                  items:
+                    format: string
       responses:
         '201':
           description: Película creada
