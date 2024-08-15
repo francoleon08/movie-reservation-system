@@ -31,8 +31,7 @@ public class MovieController {
             @RequestParam(value = "distributor", required = false) String distributor,
             @RequestParam(value = "genre", required = false) String genre,
             @RequestParam(value = "language", required = false) String language,
-            @RequestParam(value = "actor", required = false) String actor)
-    {
+            @RequestParam(value = "actor", required = false) String actor) {
         try {
             return ResponseEntity.ok(movieService.findMoviesByOptionalParams(name, director, nationality, qualification, distributor, genre, language, actor));
         } catch (ResourceNotFoundException e) {

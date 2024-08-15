@@ -35,21 +35,21 @@ public class MovieSpecification {
 
     public static Specification<Movie> hasGenre(String genre) {
         return (root, query, criteriaBuilder) -> {
-          if (genre == null) {
-              return criteriaBuilder.conjunction();
-          }
-          Join<Movie, Genre> join = root.join("genres", JoinType.INNER);
-          return criteriaBuilder.equal(join.get("name"), genre);
+            if (genre == null) {
+                return criteriaBuilder.conjunction();
+            }
+            Join<Movie, Genre> join = root.join("genres", JoinType.INNER);
+            return criteriaBuilder.equal(join.get("name"), genre);
         };
     }
 
     public static Specification<Movie> hasLanguage(String language) {
         return (root, query, criteriaBuilder) -> {
-          if (language == null) {
-              return criteriaBuilder.conjunction();
-          }
-          Join<Movie, Genre> join = root.join("languages", JoinType.INNER);
-          return criteriaBuilder.equal(join.get("name"), language);
+            if (language == null) {
+                return criteriaBuilder.conjunction();
+            }
+            Join<Movie, Genre> join = root.join("languages", JoinType.INNER);
+            return criteriaBuilder.equal(join.get("name"), language);
         };
     }
 

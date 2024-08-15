@@ -52,11 +52,11 @@ public class MovieAdminController {
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteMovie(@PathVariable String id) {
-       try {
-              movieService.deleteMovie(id);
-              return ResponseEntity.ok("Movie deleted successfully");
-       } catch (ResourceNotFoundException e) {
-           return ResponseEntity.badRequest().body(e.getMessage());
-       }
+        try {
+            movieService.deleteMovie(id);
+            return ResponseEntity.ok("Movie deleted successfully");
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
