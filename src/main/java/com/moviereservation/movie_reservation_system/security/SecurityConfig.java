@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -28,6 +29,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authRequest ->
                         authRequest
                                 .requestMatchers("/api/auth/**").permitAll()
+                                .requestMatchers("/api/movies/**").permitAll()
+                                .requestMatchers("/api/admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManagement ->
