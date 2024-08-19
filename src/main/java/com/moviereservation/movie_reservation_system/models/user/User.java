@@ -1,5 +1,7 @@
 package com.moviereservation.movie_reservation_system.models.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.moviereservation.movie_reservation_system.models.screening.Ticket;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,16 +26,16 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, length = 50)
     private String username;
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, length = 50)
     private String email;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String firstName;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String lastName;
     @Column(nullable = false)
-    private Integer age;
+    private int age;
     @Column(nullable = false)
     private String hashedPassword;
 
@@ -44,9 +46,13 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Ticket> tickets;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
     @Override

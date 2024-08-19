@@ -99,13 +99,61 @@ paths:
                     type: string
                   email:
                     type: string
+                  firstName:
+                    type: string
+                  lastName:
+                    type: string
+                  age:
+                    type: integer
                   role:
                     type: string
 
   /api/movies:
     get:
-      summary: Obtener Todas las Películas
-      description: Devuelve una lista de todas las películas disponibles.
+      summary: Obtener Lista de Películas
+      description: Obtiene una lista de películas que coinciden con los criterios de búsqueda.
+      parameters:
+        - name: name
+          in: query
+          description: El nombre de la película.
+          required: false
+          schema:
+            type: string
+        - name: director
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: nationality
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: qualification
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: distributor
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: genre
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: language
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: actor
+          in: query
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: Lista de películas
@@ -117,39 +165,40 @@ paths:
                   type: object
                   properties:
                     id:
+                      type: string
+                    name:
+                      type: string
+                    synopsis:
+                      type: string
+                    nationality:
+                      type: string
+                    qualification:
+                      type: string
+                    distributor:
+                      type: string
+                    trailerUrl:
+                      type: string
+                    posterUrl:
+                      type: string
+                    website:
+                      type: string
+                    releaseDate:
+                      type: string
+                      format: date
+                    duration:
                       type: integer
-                    title:
-                      type: string
-                    description:
-                      type: string
-                    genre:
-                      type: string
-                    poster:
-                      type: string
-
-    post:
-      summary: Añadir una Nueva Película
-      description: Permite a un administrador añadir una nueva película.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                title:
-                  type: string
-                description:
-                  type: string
-                genre:
-                  type: string
-                poster:
-                  type: string
-      responses:
-        '201':
-          description: Película creada
-        '400':
-          description: Solicitud incorrecta
+                    genres:
+                      type: array
+                      items:
+                        format: string
+                    languages:
+                      type: array
+                      items:
+                        format: string
+                    actors:
+                      type: array
+                      items:
+                        format: string
 
   /api/movies/{id}:
     get:
@@ -193,6 +242,59 @@ paths:
         '404':
           description: Película no encontrada
 
+  /api/admin/movies:
+    post:
+      summary: Añadir una Nueva Película
+      description: Permite a un administrador añadir una nueva película.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                synopsis:
+                  type: string
+                nationality:
+                  type: string
+                qualification:
+                  type: string
+                distributor:
+                  type: string
+                trailerUrl:
+                  type: string
+                posterUrl:
+                  type: string
+                website:
+                  type: string
+                releaseDate:
+                  type: string
+                  format: date
+                duration:
+                  type: integer
+                genres:
+                  type: array
+                  items:
+                    format: string
+                languages:
+                  type: array
+                  items:
+                    format: string
+                actors:
+                  type: array
+                  items:
+                    format: string
+      responses:
+        '201':
+          description: Película creada
+        '400':
+          description: Solicitud incorrecta
+
+  /api/admin/movies/{id}:
     put:
       summary: Actualizar una Película
       description: Permite a un administrador actualizar los detalles de una película.
@@ -201,7 +303,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         required: true
         content:
@@ -209,14 +311,41 @@ paths:
             schema:
               type: object
               properties:
-                title:
+                id:
                   type: string
-                description:
+                name:
                   type: string
-                genre:
+                synopsis:
                   type: string
-                poster:
+                nationality:
                   type: string
+                qualification:
+                  type: string
+                distributor:
+                  type: string
+                trailerUrl:
+                  type: string
+                posterUrl:
+                  type: string
+                website:
+                  type: string
+                releaseDate:
+                  type: string
+                  format: date
+                duration:
+                  type: integer
+                genres:
+                  type: array
+                  items:
+                    format: string
+                languages:
+                  type: array
+                  items:
+                    format: string
+                actors:
+                  type: array
+                  items:
+                    format: string
       responses:
         '200':
           description: Película actualizada
@@ -233,10 +362,28 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '204':
           description: Película eliminada exitosamente
+        '404':
+          description: Película no encontrada
+
+  /api/admin/movies/deactivate/{id}:
+    put:
+      summary: Desactivar una Película
+      description: Permite a un administrador desactivar una película.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Película desactivada
+        '400':
+          description: Solicitud incorrecta
         '404':
           description: Película no encontrada
 

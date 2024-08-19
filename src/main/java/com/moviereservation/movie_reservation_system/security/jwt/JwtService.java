@@ -22,6 +22,18 @@ public class JwtService {
     private static final int DEFAULT_EXPIRATION_TIME = 3600;
     private static final int EXPIRATION_TIME = getExpirationTime();
 
+    private static int getExpirationTime() {
+        String expirationTimeStr = System.getenv("EXPIRATION_TOKEN_TIME");
+        if (expirationTimeStr == null) {
+            return DEFAULT_EXPIRATION_TIME;
+        }
+        try {
+            return Integer.parseInt(expirationTimeStr);
+        } catch (NumberFormatException e) {
+            return DEFAULT_EXPIRATION_TIME;
+        }
+    }
+
     public String generateToken(User user) {
         return generateTokenWithExtraClaims(new HashMap<>(), user);
     }
@@ -70,17 +82,5 @@ public class JwtService {
 
     private Date getExpiration(String token) {
         return getClaim(token, Claims::getExpiration);
-    }
-
-    private static int getExpirationTime() {
-        String expirationTimeStr = System.getenv("EXPIRATION_TOKEN_TIME");
-        if (expirationTimeStr == null) {
-            return DEFAULT_EXPIRATION_TIME;
-        }
-        try {
-            return Integer.parseInt(expirationTimeStr);
-        } catch (NumberFormatException e) {
-            return DEFAULT_EXPIRATION_TIME;
-        }
     }
 }
