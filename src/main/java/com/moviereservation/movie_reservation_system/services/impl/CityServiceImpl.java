@@ -3,7 +3,7 @@ package com.moviereservation.movie_reservation_system.services.impl;
 import com.moviereservation.movie_reservation_system.exceptions.ResourceAlreadyExistException;
 import com.moviereservation.movie_reservation_system.exceptions.ResourceNotFoundException;
 import com.moviereservation.movie_reservation_system.models.cinema.City;
-import com.moviereservation.movie_reservation_system.models.cinema.CityDTO;
+import com.moviereservation.movie_reservation_system.models.cinema.dto.CityDTO;
 import com.moviereservation.movie_reservation_system.repositories.CityRepository;
 import com.moviereservation.movie_reservation_system.services.CityService;
 import org.springframework.beans.factory.annotation.Autowired;

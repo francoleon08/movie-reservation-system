@@ -1,4 +1,4 @@
-package com.moviereservation.movie_reservation_system.models.cinema;
+package com.moviereservation.movie_reservation_system.models.cinema.dto;
 
 import lombok.Builder;
 import lombok.Data;
