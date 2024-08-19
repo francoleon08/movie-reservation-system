@@ -1,5 +1,7 @@
 package com.moviereservation.movie_reservation_system.models.cinema;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,8 +26,10 @@ public class Cinema {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "city_id", nullable = false)
+    @JsonBackReference
     private City city;
 
-    @OneToMany(mappedBy = "cinema", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cinema", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @JsonManagedReference
     private List<Auditoriums> auditoriums;
 }

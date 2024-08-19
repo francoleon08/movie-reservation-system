@@ -60,7 +60,7 @@ public class MovieServiceImpl implements MovieService {
         if (movieRepository.existsById(movieDTO.getId())) {
             throw new ResourceAlreadyExistException("Movie already exists");
         }
-        Movie movie = ConvertTO.convertToMovieDTO(movieDTO);
+        Movie movie = ConvertTO.convertToMovie(movieDTO);
         handleLanguages(movieDTO, movie);
         handleGenres(movieDTO, movie);
         movie.setState(MovieState.ACTIVE);
@@ -72,7 +72,7 @@ public class MovieServiceImpl implements MovieService {
         if (!movieRepository.existsById(id)) {
             throw new ResourceNotFoundException("Movie not found");
         }
-        Movie movieToUpdate = ConvertTO.convertToMovieDTO(movie);
+        Movie movieToUpdate = ConvertTO.convertToMovie(movie);
         handleLanguages(movie, movieToUpdate);
         handleGenres(movie, movieToUpdate);
         return movieRepository.save(movieToUpdate);
