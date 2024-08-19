@@ -1,5 +1,6 @@
 package com.moviereservation.movie_reservation_system.models.cinema;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.moviereservation.movie_reservation_system.models.screening.Screening;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class Auditoriums {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "cinema_id", nullable = false)
+    @JsonBackReference
     private Cinema cinema;
 
     @OneToMany(mappedBy = "auditoriums", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
