@@ -3,6 +3,7 @@ package com.moviereservation.movie_reservation_system.controllers.admin;
 import com.moviereservation.movie_reservation_system.exceptions.ResourceNotFoundException;
 import com.moviereservation.movie_reservation_system.models.cinema.dto.CityDTO;
 import com.moviereservation.movie_reservation_system.services.CityService;
+import com.moviereservation.movie_reservation_system.utils.ConvertTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,7 +20,9 @@ public class CityAdminController {
     @GetMapping("/{postalCode}")
     public ResponseEntity<?> getCity(@PathVariable("postalCode") String postalCode) {
         try {
-            return ResponseEntity.ok(cityService.getCity(postalCode));
+            return ResponseEntity.ok(ConvertTO.convertToResponseCityDTO(
+                    cityService.getCity(postalCode))
+            );
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -39,7 +42,9 @@ public class CityAdminController {
     @PutMapping
     public ResponseEntity<?> updateCity(@RequestBody CityDTO city) {
         try {
-            return ResponseEntity.ok(cityService.updateCity(city.getPostalCode(), city.getName()));
+            return ResponseEntity.ok(ConvertTO.convertToResponseCityDTO(
+                    cityService.updateCity(city.getPostalCode(), city.getName()))
+            );
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

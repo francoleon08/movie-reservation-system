@@ -3,6 +3,7 @@ package com.moviereservation.movie_reservation_system.controllers.admin;
 import com.moviereservation.movie_reservation_system.exceptions.ResourceNotFoundException;
 import com.moviereservation.movie_reservation_system.models.cinema.dto.CinemaDTO;
 import com.moviereservation.movie_reservation_system.services.CinemaService;
+import com.moviereservation.movie_reservation_system.utils.ConvertTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,7 +20,9 @@ public class CinemaAdminController {
     @GetMapping("/{cinemaId}")
     public ResponseEntity<?> getCinema(@PathVariable("cinemaId") String cinemaId) {
         try {
-            return ResponseEntity.ok(cinemaService.getCinema(cinemaId));
+            return ResponseEntity.ok(ConvertTO.convertToResponseCinemaDTO(
+                    cinemaService.getCinema(cinemaId)
+            ));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -39,7 +42,9 @@ public class CinemaAdminController {
     @PutMapping
     public ResponseEntity<?> updateCinema(@RequestBody CinemaDTO cinema) {
         try {
-            return ResponseEntity.ok(cinemaService.updateCinema(cinema));
+            return ResponseEntity.ok(ConvertTO.convertToResponseCinemaDTO(
+                    cinemaService.updateCinema(cinema)
+            ));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

@@ -2,6 +2,7 @@ package com.moviereservation.movie_reservation_system.controllers;
 
 import com.moviereservation.movie_reservation_system.exceptions.ResourceNotFoundException;
 import com.moviereservation.movie_reservation_system.services.MovieService;
+import com.moviereservation.movie_reservation_system.utils.ConvertTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,9 @@ public class MovieController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getMovieById(@PathVariable String id) {
         try {
-            return ResponseEntity.ok(movieService.getMovieById(id));
+            return ResponseEntity.ok(ConvertTO.convertToMovieDTO(
+                    movieService.getMovieById(id)
+            ));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -33,7 +36,16 @@ public class MovieController {
             @RequestParam(value = "language", required = false) String language,
             @RequestParam(value = "actor", required = false) String actor) {
         try {
-            return ResponseEntity.ok(movieService.findMoviesByOptionalParams(name, director, nationality, qualification, distributor, genre, language, actor));
+            return ResponseEntity.ok(ConvertTO.convertToMovieDTOList(
+                    movieService.findMoviesByOptionalParams(name,
+                            director,
+                            nationality,
+                            qualification,
+                            distributor,
+                            genre,
+                            language,
+                            actor)
+            ));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
